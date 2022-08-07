@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import roc_curve, classification_report
+from sklearn.metrics import plot_roc_curve, classification_report
 
 
 
@@ -142,20 +142,20 @@ def classification_report_image(y_train,
     print ("Saving RF results ...")
     plt.clf()
     plt.rc('figure', figsize=(5, 5))
-    plt.text(0.01, 1.25, str('Random Forest Train'), {'fontsize': 10}, fontproperties = 'monospace')
-    plt.text(0.01, 0.05, str(classification_report(y_train, y_train_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.9, str('Random Forest Train'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.04, str(classification_report(y_train, y_train_preds_rf, zero_division=0)), {'fontsize': 10}, fontproperties = 'monospace')
     plt.text(0.01, 0.6, str('Random Forest Test'), {'fontsize': 10}, fontproperties = 'monospace')
-    plt.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
-
+    plt.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_rf, zero_division=0)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
     plt.axis('off')
     plt.savefig(f'./images/results/rf_results.png')
     
     print ("Saving LR results ...")
     plt.clf()
     plt.rc('figure', figsize=(5, 5))
-    plt.text(0.01, 0.7, str('logistic regression results'), {'fontsize': 10}, fontproperties = 'monospace')
-    plt.text(0.01, 0.66, str('test results'), {'fontsize': 10}, fontproperties = 'monospace')
-    plt.text(0.01, 0.49, str(classification_report(y_train, y_train_preds_lr)), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.9, str('Logistic Regression results'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.04, str(classification_report(y_train, y_train_preds_lr, zero_division=0)), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.6, str('Logistic Regression Test'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_lr, zero_division=0)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace    plt.axis('off')
     plt.axis('off')
     plt.savefig(f'./images/results/logistic_results.png')
 
@@ -219,8 +219,7 @@ def train_models(X_train, X_test, y_train, y_test):
     lrc.fit(X_train, y_train)
     feature_importance_plot(cv_rfc, X_data, './images/results/')
     print ("Plotting ROC curves ...")
-    plot_models(lrc, X_test, y_test)
-    #plot_models(cv_rfc.best_estimator_, X_test, y_test)
+    plot_models(lrc, cv_rfc, X_test, y_test)
     y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
     y_test_preds_rf = cv_rfc.best_estimator_.predict(X_test)
     y_train_preds_lr = lrc.predict(X_train)
@@ -232,15 +231,13 @@ def train_models(X_train, X_test, y_train, y_test):
     return y_train_preds_rf, y_test_preds_rf, y_train_preds_lr, y_test_preds_lr
     
 
-def plot_models(model, X_test, y_test):
+def plot_models(model1, model2, X_test, y_test):
     plt.figure(figsize=(15, 8))
-    if model == 'lrc':
-        lrc_plot = roc_curve(model, X_test, y_test)
-    else:
-        ax = plt.gca()
-        model_disp = roc_curve(model, X_test, y_test)
-    lrc_plot.plot(ax=ax, alpha=0.8)
-    plt.savefig(f'./images/results/roc_curve_{model}_result.png')
+    lrc_plot = plot_roc_curve(model1, X_test, y_test)
+    ax = plt.gca()
+    # lrc_plot.plot(ax=ax, alpha=0.8)
+    rfc_disp = plot_roc_curve(model2.best_estimator_, X_test, y_test, ax=ax, alpha=0.8)
+    plt.savefig(f'./images/results/roc_curve_result.png')
     
 
 if __name__ == "__main__":
