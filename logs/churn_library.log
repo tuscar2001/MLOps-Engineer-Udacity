@@ -1,6 +1,5 @@
 root - INFO - Testing import_data: SUCCESS
 root - INFO - Testing perform eda: SUCCESS
-root - INFO - Files in the {path}  path validated: SUCCESS
+root - INFO - Files in the ./images/eda/  path validated: SUCCESS
 root - INFO - Encoder check: SUCCESS
 root - INFO - Splitting the data into train and test: SUCCESS
-root - INFO - Files in the ./models/ path validated: SUCCESS
