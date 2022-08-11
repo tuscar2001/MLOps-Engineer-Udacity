@@ -1,3 +1,16 @@
+########################################################################################################################
+############################################# Author: Oscar Adimi ######################################################
+############################################# Date: 8/8/2022 ###########################################################
+################ Description: This file ia aimed at building a ML pipeline for customers that are ######################
+################ likely to churn. The steps of the pipeline are: 1. Churn data collection ##############################
+################                                                 2. Preliminary Checks #################################
+################                                                 3. Splitting the data #################################
+################                                                 4. Training the data  #################################
+################ Some code outputs have been saved in the appropriate paths.           #################################
+########################################################################################################################
+
+
+
 # library doc string
 
 
@@ -116,6 +129,7 @@ def perform_feature_engineering(in_data):
     print ('Splitting input data into training and testing ...')
     y, X = in_data.loc[:,'Churn'], in_data.loc[:,[col for col in in_data.columns if col != 'Churn']]
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size= 0.3, random_state=42)
+    print (x_train.shape, y_train.shape, x_test.shape, y_test.shape)
     return x_train, x_test, y_train, y_test
 
 
@@ -209,9 +223,9 @@ def train_models(x_train, x_test, y_train, y_test):
     rfc = RandomForestClassifier(random_state=42)
     lrc = LogisticRegression(solver='lbfgs', max_iter=3000)
     param_grid = { 
-    'n_estimators': [200, 500],
+    'n_estimators': [700, 1000, 2000],
     'max_features': ['auto', 'sqrt'],
-    'max_depth' : [4,5,100],
+    'max_depth' : [100, 200, 300],
     'criterion' :['gini', 'entropy']}
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
     cv_rfc.fit(x_train, y_train)
@@ -219,6 +233,8 @@ def train_models(x_train, x_test, y_train, y_test):
     lrc.fit(x_train, y_train)
     feature_importance_plot(cv_rfc, X_data, './images/results/')
     print ("Plotting ROC curves ...")
+    print ("RF best model {}".format(cv_rfc.best_estimator_))
+    print ("Logistic Regression best model: {}".format(lrc))
     plot_models(lrc, cv_rfc, x_test, y_test)
     y_train_preds_rf = cv_rfc.best_estimator_.predict(x_train)
     y_test_preds_rf = cv_rfc.best_estimator_.predict(x_test)
@@ -232,11 +248,13 @@ def train_models(x_train, x_test, y_train, y_test):
     
 
 def plot_models(model1, model2, x_test, y_test):
+    #plt.figure(figsize=(15, 8))
+    lrc_plot = plot_roc_curve(model1, x_train, y_train)
     plt.figure(figsize=(15, 8))
-    lrc_plot = plot_roc_curve(model1, x_test, y_test)
     ax = plt.gca()
     # lrc_plot.plot(ax=ax, alpha=0.8)
-    rfc_disp = plot_roc_curve(model2.best_estimator_, x_test, y_test, ax=ax, alpha=0.8)
+    rfc_disp = plot_roc_curve(model2.best_estimator_, x_train, y_train, ax=ax, alpha=0.8)
+    lrc_plot.plot(ax=ax, alpha=0.8)
     plt.savefig(f'./images/results/roc_curve_result.png')
     
 
