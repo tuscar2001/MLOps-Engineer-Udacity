@@ -14,21 +14,43 @@
 Here are the technologies used:
     * Visual Studio Code (coding IDE)
     * Github for Version Control
-    * Python Packages: Please refer to the requirements_py3.8.txt file
+    * Python Packages: 
+                        * scikit-learn==0.24.1
+                        * shap==0.40.0
+                        * joblib==1.0.1
+                        * pandas==1.2.4
+                        * numpy==1.20.1
+                        * matplotlib==3.3.4
+                        * seaborn==0.11.2
+                        * pylint==2.7.4
+                        * autopep8==1.5.6
 
 ## 3. Files and data description
 Files are described as follows:
-churn_distribution: Gives a distribution of the response variable as a bar chart
-Customer_Age_distribution: gives a distribution of the customer Age
-heatmap: gives a correlation matrix plot of the variables in the data
-marital_status_distribution: gives a distribution of the marital status
-feature_importance: give a feature importance of the features in the models
-logistic_results: highlights the logistic regression model metrics
-rf_results: highlights the random forest model metrics
-roc_curve_plot: roc curve of both models
-churn_library.log: log file of the churn_library file
-logistic_model.pkl: logistic model pickle file
-rfc_model.pkl: random forest model pickle file 
+* data
+    * bank_data.csv
+* images
+    * eda
+        * churn_distribution.png: Gives a distribution of the response variable as a bar chart
+        * customer_age_distribution.png: gives a distribution of the customer Age
+        * heatmap.png: gives a correlation matrix plot of the variables in the data
+        * marital_status_distribution.png: gives a distribution of the marital status
+        * total_transaction_distribution.png
+    * results
+        * feature_importance.png: give a feature importance of the features in the models
+        * logistics_results.png: highlights the logistic regression model metrics
+        * rf_results.png: highlights the random forest model metrics
+        * roc_curve_result.png: roc curve of both models
+    * logs
+        * churn_library.log: log file of the churn_library file
+    * models
+        * logistic_model.pkl: logistic model pickle file
+        * rfc_model.pkl: random forest model pickle file 
+churn_library.py
+churn_notebook.ipynb
+churn_script_logging_and_tests.py
+README.md
+
 
 ## 4. Launch
 How do you run your files? What should happen when you run your files?
