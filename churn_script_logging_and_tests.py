@@ -51,14 +51,14 @@ def test_import(import_data):
     return in_data
 
 
-def test_eda(perform_eda, in_data):
+def test_eda(perform_eda, in_data_eda):
     '''
     test perform eda function
     '''
 
     try:
 
-        perform_eda(in_data)
+        perform_eda(in_data_eda)
         logging.info("Testing perform eda: SUCCESS")
     except Exception as err:
         logging.error("Check the perform_data: FAILURE")
@@ -79,31 +79,31 @@ def test_eda(perform_eda, in_data):
         raise err
 
 
-def test_encoder_helper(encoder_helper, in_data):
+def test_encoder_helper(encoder_helper, in_data_helper):
     '''
     test encoder helper
     '''
     cat_columns = ['Gender', 'Education_Level', 'Marital_Status',
                    'Income_Category', 'Card_Category']
     try:
-        assert isinstance(in_data, pd.DataFrame)
+        assert isinstance(in_data_helper, pd.DataFrame)
         assert len(cat_columns) > 0
-        in_data_enc = encoder_helper(in_data, cat_columns, in_data['Churn'])
-        assert len(in_data_enc.columns) < len(in_data.columns)
+        in_data_enc = encoder_helper(in_data_helper, cat_columns, in_data_helper['Churn'])
+        assert len(in_data_enc.columns) < len(in_data_helper.columns)
         logging.info("Encoder check: SUCCESS")
     except AssertionError as err:
         logging.error("Number of columns not matching ...")
         raise err
 
 
-def test_perform_feature_engineering(perform_feature_engineering, in_data):
+def test_perform_feature_engineering(perform_feature_engineering, in_data_eng):
     '''
     test perform_feature_engineering
     '''
     try:
-        x_train, x_test, y_train, y_test = perform_feature_engineering(in_data)
-        assert x_train.shape[0] + x_test.shape[0] == in_data.shape[0]
-        assert y_train.shape[0] + y_test.shape[0] == in_data.shape[0]
+        x_train, x_test, y_train, y_test = perform_feature_engineering(in_data_eng)
+        assert x_train.shape[0] + x_test.shape[0] == in_data_eng.shape[0]
+        assert y_train.shape[0] + y_test.shape[0] == in_data_eng.shape[0]
         logging.info("Splitting the data into train and test: SUCCESS")
     except AssertionError as err:
         logging.error("Splitting not done properly")

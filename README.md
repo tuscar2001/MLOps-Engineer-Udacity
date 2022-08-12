@@ -1,11 +1,22 @@
-# Predict Customer Churn
+# Table of Contents
+    1. Introduction - the project's aim
+    2. Technologies
+    3. Files and data description
+    3. Launch
 
-- Project **Predict Customer Churn** of ML DevOps Engineer Nanodegree Udacity
 
-## Project Description
-This project is aimed at conducting code best practices. This includes code refactoring, modularization, and testing according to auto-pep8 and pylint guidelines.
 
-## Files and data description
+## 1. Introduction
+
+- This Project is called **Predict Customer Churn** of ML DevOps Engineer Nanodegree Udacity. This project is aimed at showing the skills needed in a project to perform regular ML tasks. This covers ML data reading, data split, model training by tuning hyperparameters,  model evaluation, and model saving. The second part of this project addresses the different tests that need to be performed to conform with the coding standards
+
+## 2. technologies
+Here are the technologies used:
+    * Visual Studio Code (coding IDE)
+    * Github for Version Control
+    * Python Packages: Please refer to the requirements_py3.8.txt file
+
+## 3. Files and data description
 Files are described as follows:
 churn_distribution: Gives a distribution of the response variable as a bar chart
 Customer_Age_distribution: gives a distribution of the customer Age
@@ -19,7 +30,7 @@ churn_library.log: log file of the churn_library file
 logistic_model.pkl: logistic model pickle file
 rfc_model.pkl: random forest model pickle file 
 
-## Running Files
+## 4. Launch
 How do you run your files? What should happen when you run your files?
 Running the churn_library.py: $python churn_library.py
 Running the churn_script_logging_and_tests.py:$python churn_script_logging_and_tests.py
